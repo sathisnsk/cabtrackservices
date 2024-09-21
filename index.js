@@ -9,6 +9,7 @@ const httpServer = http.createServer(async (request, response) => {
   console.log(url);
 
   console.log(url === '/GETUSERS' || url === '/GETUSER' || url === '/ADDUSER');
+  console.log(request.method);
 
   if (url === '/GETUSERS' || url === '/GETUSER' || url === '/ADDUSER') {
 
