@@ -30,7 +30,15 @@ const httpServer = http.createServer(async (request, response) => {
       await inputJson;
 
       processData(request.method, response, inputJson);
-    } else {
+    } else if (request.method === 'OPTOINS') {
+      const headers = {
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Origin": '*', //req.headers.origin, //or the specific origin you want to give access to,
+    };
+      response.writeHead('200',headers);   //method not allowed
+      response.end();
+    }
+     else {
       response.writeHead('405');   //method not allowed
       response.end();
     }
