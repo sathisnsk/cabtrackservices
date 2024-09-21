@@ -2,10 +2,9 @@ const http = require('http');
 const { addQuery, getQuery } = require('./dbService.js');
 const PORT = 3300;
 const headers = {
-  "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Content-Type, Authorization",
+  "Access-Control-Allow-Headers": "content-type, Authorization",
   "Access-Control-Allow-Origin": '*', //req.headers.origin, //or the specific origin you want to give access to,
   "Access-Control-Allow-Methods":"GET, POST, OPTIONS",
-  "Content-Type": "application/json"
 };
 
 const httpServer = http.createServer(async (request, response) => {
