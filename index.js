@@ -1,6 +1,11 @@
 const http = require('http');
 const { addQuery, getQuery } = require('./dbService.js');
 const PORT = 3300;
+const headers = {
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Allow-Origin": '*', //req.headers.origin, //or the specific origin you want to give access to,
+  "Access-Control-Allow-Methods":"GET, POST, OPTIONS",
+};
 
 const httpServer = http.createServer(async (request, response) => {
 
@@ -30,12 +35,8 @@ const httpServer = http.createServer(async (request, response) => {
       await inputJson;
 
       processData(request.method, response, inputJson);
-    } else if (request.method === 'OPTOINS') {
-      const headers = {
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Origin": '*', //req.headers.origin, //or the specific origin you want to give access to,
-    };
-      response.writeHead('200',headers);   //method not allowed
+    } else if (request.method === 'OPTIONS') {
+      response.writeHead(200,headers);   //Prefetch flight response
       response.end();
     }
      else {
@@ -64,7 +65,7 @@ async function processData(requestMethod, response, inputJson) {
   console.log("inside function" + inputJson);
   
   if (requestMethod === 'POST') {
-  outputJson = await addQuery(inputJson);
+   outputJson = await addQuery(inputJson);
   }
   
   if (requestMethod === 'GET') {
@@ -72,9 +73,9 @@ async function processData(requestMethod, response, inputJson) {
     console.log("output received"+outputJson);
     }
 
-  //let outputJson = { output: "data", status: "success" };
+  //outputJson = { output: "data", status: "success" };
 
-  response.writeHead('200',{"Content-Type":"application/json"});
+  response.writeHead(200,headers);
   response.write(JSON.stringify(outputJson));
   response.end();
 
