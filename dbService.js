@@ -37,7 +37,7 @@ exports.addQuery = async (inputJson) => {
     return {"status":"success"};
   }
   catch(err){
-    console.log('Database insert operation failed'+err);
+    console.log('Database insert operation failed: '+err);
     return {err};
   }
 }
@@ -46,16 +46,16 @@ exports.addQuery = async (inputJson) => {
 exports.getQuery = async (inputJson) => {
   await client.connect();
   try {
-    console.log("raw input received in the DB:"+inputJson);
-    console.log("input after toString:"+JSON.parse(inputJson));
+    console.log("raw input received in the DB:\n"+inputJson);
+    console.log("input after JSON.parse:\n"+JSON.parse(inputJson));
     const findResult = await collection.findOne(JSON.parse(inputJson));
     await client.close();
-    console.log("result: "+JSON.stringify(findResult));
+    console.log("query result:\n"+JSON.stringify(findResult));
     //return JSON.stringify(findResult);
     return (findResult);
   }
   catch(err){
-    console.log('Database read operation failed'+err);
+    console.log('Database read operation failed: '+err);
     return err;
   }
 }
