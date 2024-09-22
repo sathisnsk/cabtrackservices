@@ -72,7 +72,7 @@ async function processData(requestMethod, response, inputJson,urlPath) {
   
   if (requestMethod === 'GET') {
   
-    inputJson = `"{mobile":${urlPath[2]}}"`;
+    inputJson = `{"mobile":${urlPath[2]}}`;
     console.log(inputJson);
     outputJson = await getQuery(inputJson);
     console.log("output received"+outputJson);
