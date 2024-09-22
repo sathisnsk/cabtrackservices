@@ -11,7 +11,7 @@ const responseHeaders = {
 const httpServer = http.createServer(async (request, response) => {
 
   const url = request.url.toUpperCase();
-  const ip = request.socket.remoteAddress;
+  const ip = request.headers['x-forwarded-for'];
   const port = request.socket.remotePort;
 
   console.log(`url: ${url} IP: ${ip} Port: ${port} method: ${request.method}`);
