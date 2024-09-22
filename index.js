@@ -2,7 +2,7 @@ const http = require('http');
 const { addQuery, getQuery } = require('./dbService.js');
 const PORT = 3300;
 const headers = {
-  "Access-Control-Allow-Headers": "content-type, Authorization",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Access-Control-Allow-Origin": '*', //req.headers.origin, //or the specific origin you want to give access to,
   "Access-Control-Allow-Methods":"GET, POST, OPTIONS",
 };
@@ -13,14 +13,14 @@ const httpServer = http.createServer(async (request, response) => {
 
   console.log(url);
 
-  console.log(url === '/GETUSERS' || url === '/GETUSER' || url === '/ADDUSER');
+  console.log(url === '/USERS' || url === '/USER');
   console.log(request.method);
 
-  if (url === '/GETUSERS' || url === '/GETUSER' || url === '/ADDUSER') {
+  if (url === '/USERS' || url === '/USER' ) {
 
-    if  ((url === '/ADDUSER'  && request.method === 'POST') || 
-         (url === '/GETUSERS' && request.method === 'GET') ||
-         (url === '/GETUSER'  && request.method === 'GET')) {
+    if  ((url === '/USER'  && request.method === 'POST') || 
+         (url === '/USER'  && request.method === 'GET') ||
+         (url === '/USERS'  && request.method === 'GET')) {
 
       let inputJson = '';
 
@@ -34,7 +34,7 @@ const httpServer = http.createServer(async (request, response) => {
 
       await inputJson;
 
-      processData(request.method, response, inputJson);
+      processData(request.method, response, inputJson, url);
     } else if (request.method === 'OPTIONS') {
       response.writeHead(200,headers);   //Prefetch flight response
       response.end();
@@ -69,6 +69,9 @@ async function processData(requestMethod, response, inputJson) {
   }
   
   if (requestMethod === 'GET') {
+    let urlPath = url.split('/');
+    inputJson = {mobile:urlPath[1]};
+    console.log(inputJson);
     outputJson = await getQuery(inputJson);
     console.log("output received"+outputJson);
     }
