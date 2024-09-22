@@ -11,8 +11,10 @@ const responseHeaders = {
 const httpServer = http.createServer(async (request, response) => {
 
   const url = request.url.toUpperCase();
+  const ip = request.socket.localAddress;
+  const port = request.socket.localPort;
 
-  console.log("url: " + url + "host: " + request.host + "method: " + request.method + "path: " + request.path);
+  console.log(`url: ${url} IP: ${ip} Port: ${port} method: ${request.method}`);
 
   const urlPath = url.split('/');
   console.log(`url path split by '/' ${urlPath}`);
@@ -33,11 +35,9 @@ const httpServer = http.createServer(async (request, response) => {
 
       request.on('end', () => {
         console.log("input: \n" + inputJson);
+        processData(request.method, response, inputJson, urlPath);
       });
 
-      await inputJson;
-
-      processData(request.method, response, inputJson, urlPath);
     } else if (request.method === 'OPTIONS') {
       response.writeHead(200, responseHeaders);   //Prefetch flight response
       response.end();
@@ -52,9 +52,7 @@ const httpServer = http.createServer(async (request, response) => {
     response.writeHead(404);    //resource not found  
     response.end();
   }
-
 }
-
 );
 
 httpServer.listen(PORT || 3300, (err) => {
@@ -78,7 +76,7 @@ async function processData(requestMethod, response, inputJson,urlPath) {
 
   //outputJson = { output: "data", status: "success" };
 
-  response.writeHead(200,headers);
+  response.writeHead(200,responseHeaders);
   response.write(JSON.stringify(outputJson));
   response.end();
 
