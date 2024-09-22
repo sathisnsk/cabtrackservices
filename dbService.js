@@ -46,14 +46,14 @@ exports.addQuery = async (inputJson) => {
 exports.getQuery = async (inputJson) => {
   await client.connect();
   try {
-    const findResult = await collection.findOne(JSON.parse(inputJson));
+    const findResult = await collection.findOne(inputJson);
     await client.close();
     console.log("result: "+JSON.stringify(findResult));
     //return JSON.stringify(findResult);
     return (findResult);
   }
   catch(err){
-    console.log('Database insert operation failed'+err);
+    console.log('Database read operation failed'+err);
     return err;
   }
 }
