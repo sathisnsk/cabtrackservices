@@ -15,14 +15,14 @@ const httpServer = http.createServer(async (request, response) => {
 
   const urlPath = url.split('/');
   console.log(urlPath);
-  console.log(urlPath[1] === '/USERS' || urlPath[1] === '/USER');
+  console.log(urlPath[1] === 'USERS' || urlPath[1] === 'USER');
   console.log(request.method);
 
-  if (urlPath[1] === '/USERS' || urlPath[1] === '/USER' ) {
+  if (urlPath[1] === 'USERS' || urlPath[1] === 'USER' ) {
 
-    if  ((urlPath[1] === '/USER'  && request.method === 'POST') || 
-         (urlPath[1] === '/USER'  && request.method === 'GET') ||
-         (urlPath[1] === '/USERS'  && request.method === 'GET')) {
+    if  ((urlPath[1] === 'USER'  && request.method === 'POST') || 
+         (urlPath[1] === 'USER'  && request.method === 'GET') ||
+         (urlPath[1] === 'USERS'  && request.method === 'GET')) {
 
       let inputJson = '';
 
