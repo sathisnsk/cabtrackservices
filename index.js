@@ -13,14 +13,16 @@ const httpServer = http.createServer(async (request, response) => {
 
   console.log(url);
 
-  console.log(url === '/USERS' || url === '/USER');
+  const urlPath = url.split('/');
+  console.log(urlPath);
+  console.log(urlPath[0] === '/USERS' || urlPath[0] === '/USER');
   console.log(request.method);
 
-  if (url === '/USERS' || url === '/USER' ) {
+  if (urlPath[0] === '/USERS' || urlPath[0] === '/USER' ) {
 
-    if  ((url === '/USER'  && request.method === 'POST') || 
-         (url === '/USER'  && request.method === 'GET') ||
-         (url === '/USERS'  && request.method === 'GET')) {
+    if  ((urlPath[0] === '/USER'  && request.method === 'POST') || 
+         (urlPath[0] === '/USER'  && request.method === 'GET') ||
+         (urlPath[0] === '/USERS'  && request.method === 'GET')) {
 
       let inputJson = '';
 
@@ -34,7 +36,7 @@ const httpServer = http.createServer(async (request, response) => {
 
       await inputJson;
 
-      processData(request.method, response, inputJson, url);
+      processData(request.method, response, inputJson, urlPath);
     } else if (request.method === 'OPTIONS') {
       response.writeHead(200,headers);   //Prefetch flight response
       response.end();
@@ -59,7 +61,7 @@ httpServer.listen(PORT || 3300, (err) => {
 });
 
 
-async function processData(requestMethod, response, inputJson) {
+async function processData(requestMethod, response, inputJson,urlPath) {
   let outputJson = '';
   console.log("inside function");
   console.log("inside function" + inputJson);
@@ -69,7 +71,7 @@ async function processData(requestMethod, response, inputJson) {
   }
   
   if (requestMethod === 'GET') {
-    let urlPath = url.split('/');
+  
     inputJson = {mobile:urlPath[1]};
     console.log(inputJson);
     outputJson = await getQuery(inputJson);
