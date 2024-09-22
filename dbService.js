@@ -46,6 +46,9 @@ exports.addQuery = async (inputJson) => {
 exports.getQuery = async (inputJson) => {
   await client.connect();
   try {
+    console.log("raw input received in the DB:"+inputJson);
+    inputJson = inputJson.stringify(inputJson);
+    console.log("input after stringify:"+inputJson);
     const findResult = await collection.findOne(inputJson);
     await client.close();
     console.log("result: "+JSON.stringify(findResult));
