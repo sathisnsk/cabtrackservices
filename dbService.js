@@ -47,8 +47,8 @@ exports.getQuery = async (inputJson) => {
   await client.connect();
   try {
     console.log("raw input received in the DB:"+inputJson);
-   // console.log("input after toString:");
-    const findResult = await collection.findOne(inputJson);
+    console.log("input after toString:"+JSON.parse(inputJson));
+    const findResult = await collection.findOne(JSON.parse(inputJson));
     await client.close();
     console.log("result: "+JSON.stringify(findResult));
     //return JSON.stringify(findResult);

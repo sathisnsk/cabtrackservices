@@ -20,8 +20,8 @@ const httpServer = http.createServer(async (request, response) => {
 
   if (urlPath[1] === 'USERS' || urlPath[1] === 'USER' ) {
 
-    if  ((urlPath[1] === 'USER'  && request.method === 'POST') || 
-         (urlPath[1] === 'USER'  && request.method === 'GET') ||
+    if  ((urlPath[1] === 'USER'   && request.method === 'POST') || 
+         (urlPath[1] === 'USER'   && request.method === 'GET') ||
          (urlPath[1] === 'USERS'  && request.method === 'GET')) {
 
       let inputJson = '';
@@ -72,7 +72,7 @@ async function processData(requestMethod, response, inputJson,urlPath) {
   
   if (requestMethod === 'GET') {
   
-    inputJson = {mobile:urlPath[2]};
+    inputJson = `"{mobile":${urlPath[2]}}"`;
     console.log(inputJson);
     outputJson = await getQuery(inputJson);
     console.log("output received"+outputJson);
